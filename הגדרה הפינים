@@ -1,0 +1,5 @@
+const int ledPins[] = {2, 3, 4}; 
+const int buttonPins[] = {5, 6, 7}; 
+const int buzzerPin = 8; 
+const int greenLedPin = 9; 
+const int redLedPin = 10; 
