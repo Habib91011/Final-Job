@@ -1,0 +1,10 @@
+void setup() {
+for (int i = 0; i < 3; i++) {
+   pinMode(ledPins[i], OUTPUT);
+   pinMode(buttonPins[i], INPUT);
+}
+pinMode(buzzerPin, OUTPUT);
+pinMode(greenLedPin, OUTPUT);
+pinMode(redLedPin, OUTPUT);
+Serial.begin(9600);
+}
