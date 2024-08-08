@@ -1,0 +1,9 @@
+void displayRandomLeds() {
+for (int i = 0; i < 3: i++) {
+  int randomLed = random(0, 3);
+  digitalWrite(ledPins[randomLed], HIGH);
+  delay(1000);
+  digitalWrite(ledPins[randomLed], LOW);
+  delay(500);
+  }
+} 
