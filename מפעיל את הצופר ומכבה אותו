@@ -1,0 +1,5 @@
+void beepBuzzer(int duration) {
+  digitalWrite(buzzerPin, HIGH);
+  delay(duration);
+  digitalWrite(buzzerPin, LOW);
+}
