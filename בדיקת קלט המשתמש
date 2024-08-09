@@ -1,0 +1,10 @@
+bool checkPlayerInput() {
+ unsigned long starTime = millis();
+ for (int i = 0; i < 3; i++;) {
+   while (digitalRead(buttonPins[i]) == LOW);
+   if (millis() - startTime > 1000) return false;
+   if (digitalRead(buttonPins[i] != HIGH) return false;
+   while ( digitalRead(buttonPins[i]) == HIGH);
+  }
+ return true;
+}
