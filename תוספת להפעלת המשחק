@@ -1,0 +1,3 @@
+  while (digitalRead(buttonPins[0]) == HIGH && digitalRead(buttonPins[1]) == HIGH && digitalRead(buttonPins[2]) == HIGH); 
+  delay(1000); 
+}
