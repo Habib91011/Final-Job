@@ -1,0 +1,3 @@
+void beepBuzzer(int duration) {
+  tone(buzzerPin, 1000, duration); 
+}
