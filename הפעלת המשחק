@@ -1,0 +1,20 @@
+void loop() {
+  displayRandomLeds(); 
+  delay(500); 
+
+  beepBuzzer(100); 
+
+  bool success = checkPlayerInput(); 
+
+  if (success) {
+    digitalWrite(greenLedPin, HIGH); 
+    beepBuzzer(200); 
+    delay(1000);
+    digitalWrite(greenLedPin, LOW); 
+  } 
+  else {
+    digitalWrite(redLedPin, HIGH); 
+    beepBuzzer(400); 
+    delay(1000); 
+    digitalWrite(redLedPin, LOW);
+  }
