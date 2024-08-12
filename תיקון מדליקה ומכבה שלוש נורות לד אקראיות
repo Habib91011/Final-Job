@@ -1,0 +1,10 @@
+void displayRandomLeds() {
+  for (int i = 0; i < 3; i++) {
+    sequence[i] = random(0, 3);
+    digitalWrite(ledPins[sequence[i]], HIGH); 
+  }
+  delay(1000); 
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(ledPins[sequence[i]], LOW); 
+  }
+}
