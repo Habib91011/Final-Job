@@ -1,0 +1,107 @@
+// הגדרת הפינים
+const int ledPins[] = {2, 3, 4}; 
+const int buttonPins[] = {5, 6, 7}; 
+const int buzzerPin = 8; 
+const int greenLedPin = 9; 
+const int redLedPin = 10; 
+
+int sequence[3]; // מערך לאחסון הרצף האקראי
+
+
+//  קלט לכפתורים, פלט לנורות ולצופר, ותקשורת סריאלית
+void setup() {
+  for (int i = 0; i < 3; i++) { 
+    pinMode(ledPins[i], OUTPUT); // קבע את פיני ה-LED כפלט 
+    pinMode(buttonPins[i], INPUT_PULLUP); // קבע את פיני הכפתורים כקלט עם נגד משיכה פנימי
+  }
+  pinMode(buzzerPin, OUTPUT); 
+  pinMode(greenLedPin, OUTPUT); 
+  pinMode(redLedPin, OUTPUT); 
+  Serial.begin(9600); 
+
+  randomSeed(analogRead(0)); // אתחול מחולל מספרים אקראיים בעזרת קריאה לערוץ אנלוגי
+}
+
+
+// מדליקה ומכבה שלוש נורות לד אקראיות
+void displayRandomLeds() {
+  for (int i = 0; i < 3; i++) {
+    sequence[i] = random(0, 3); // בחר נורת לד אקראית (0 עד 2)
+    digitalWrite(ledPins[sequence[i]], HIGH); // הדלק את נורת ה-LED האקראית שנבחרה
+  }
+
+  delay(1000); 
+  for (int i = 0; i < 3; i++) {
+    digitalWrite(ledPins[sequence[i]], LOW); // כבה את הנורות שנבחרו
+  }
+}
+
+
+
+// מפעיל את הצופר למשך הזמן שנקבע
+void beepBuzzer(int duration) {
+  tone(buzzerPin, 1000, duration); // הפעל את הצופר בתדר 1000Hz למשך הזמן שנקבע
+}
+
+
+// בדיקת קלט המשתמש
+bool checkPlayerInput() {
+  unsigned long startTime = millis(); // שמור את זמן ההתחלה
+
+  for (int i = 0; i < 3; i++) {
+
+    bool buttonPressed = false;
+
+    while (!buttonPressed) {
+
+      for (int k = 0; k < 3; k++) {
+
+        if (digitalRead(buttonPins[k]) == LOW) { 
+
+          buttonPressed = true;
+
+          if (k != sequence[i]) return false; // אם נלחץ כפתור שגוי, החזר שקר (כישלון)
+
+          while (digitalRead(buttonPins[k]) == LOW); // המתן לשחרור הכפתור
+
+        }
+      }
+    }
+  }
+
+  unsigned long timeTaken = millis() - startTime;
+  if (timeTaken > 1000) return false; 
+  return true; 
+
+}
+
+
+// הפעלת המשחק
+void loop() {
+  displayRandomLeds(); // הצג את נורות ה-LED האקראיות
+
+  delay(500); 
+
+  beepBuzzer(100); // הפעל את הצופר לצפצוף קצר
+
+  bool success = checkPlayerInput(); // בדוק את קלט השחקן
+
+  if (success) {
+    digitalWrite(greenLedPin, HIGH); 
+    beepBuzzer(200); // הפעל את הצופר לצפצוף הצלחה
+    delay(1000); 
+    digitalWrite(greenLedPin, LOW); 
+  } 
+
+  else {
+    digitalWrite(redLedPin, HIGH); 
+    beepBuzzer(400); // הפעל את הצופר לצפצוף כישלון
+    delay(1000); 
+    digitalWrite(redLedPin, LOW); 
+  }
+
+
+  // המתן ללחיצת כפתור כדי להתחיל משחק חדש 
+  while (digitalRead(buttonPins[0]) == HIGH && digitalRead(buttonPins[1]) == HIGH && digitalRead(buttonPins[2]) == HIGH); 
+  delay(1000); // המתן קצר לפני התחלת המשחק מחדש
+}
